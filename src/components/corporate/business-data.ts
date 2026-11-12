@@ -7,6 +7,16 @@ export const businesses = [
   { name: 'Agriculture & Agribusiness', icon: Sprout, description: 'Exploring sustainable agricultural opportunities and strengthening value chains from farm to market.' },
   { name: 'General Supplies & Procurement', icon: PackageCheck, description: 'Supporting organisations with sourcing, general supplies and dependable procurement solutions.' },
 ];
+export const aboutCopy = {
+  summary: 'A diversified business and investment group incorporated in Kenya, connecting expertise and opportunity across six complementary sectors.',
+  intro: 'YIREHSHAM GROUP LTD is a diversified business and investment group incorporated in Kenya, bringing together expertise and opportunities across technology, business consulting, international trade, investments, agribusiness and general supplies.',
+  approach: 'We are guided by a strategic approach to business development, innovation and value creation. Our focus is on identifying emerging opportunities, developing practical solutions, facilitating strategic partnerships and supporting enterprises through the delivery of products, services and innovative business solutions.',
+  bridge: 'Through our diverse business interests, we aim to bridge the gap between ideas and implementation, connect markets, strengthen commercial relationships and contribute to sustainable economic growth. We recognise the importance of adaptability, operational excellence and forward-thinking strategies in an increasingly interconnected business environment.',
+  valuesLine: 'Our approach is built on integrity, professionalism, collaboration and a commitment to delivering meaningful value to the businesses, institutions, partners and communities we engage with.',
+  values: ['Integrity', 'Professionalism', 'Collaboration', 'Commitment to Value'],
+  outlook: 'With an international outlook and a strong interest in opportunities across Africa and beyond, YIREHSHAM GROUP LTD is positioned to engage across multiple sectors, foster strategic relationships and pursue commercially sustainable opportunities.',
+  tagline: 'Building Businesses. Connecting Opportunities. Creating Impact.',
+};
 export const contact = {
   email: 'yirehshamgroupltd@gmail.com',
   emailHref: 'mailto:yirehshamgroupltd@gmail.com',
