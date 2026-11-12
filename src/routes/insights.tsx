@@ -1,0 +1,6 @@
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { ArrowUpRight } from 'lucide-react';
+import { SiteShell, PageHeading } from '@/components/corporate/site-shell';
+import { pageHead } from '@/components/corporate/business-data';
+export const Route=createFileRoute('/insights')({component:Insights,head:()=>pageHead('News & Insights','News, company announcements and sector perspectives from YIREHSHAM GROUP LTD.')});
+function Insights(){return <SiteShell><PageHeading eyebrow="News & insights" title="Perspectives for What Comes Next." description="Company updates, business perspectives and insights from across our sectors."/><section className="section"><div className="site-container intro-layout"><div><div className="eyebrow text-primary">From the group</div><h2 className="section-heading">Our story is<br/>taking shape.</h2></div><div><p className="copy">We are building our corporate foundation and developing our business operations. Company announcements and sector perspectives will appear here as they become available.</p><p className="copy mt-4">There are no published news articles yet.</p><Link to="/about" className="text-link">Get to Know YIREHSHAM <ArrowUpRight size={16}/></Link></div></div></section></SiteShell>}

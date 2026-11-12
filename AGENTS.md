@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application structure
+- Keep shared corporate navigation and footer in a single site shell, with separate content routes; this preserves consistent navigation and per-page metadata.
+- Store business pillar content in a browser-safe shared module so homepage and business pages remain aligned.
+- Until a real contact destination is supplied, enquiries download locally and never pretend to send; this prevents lost correspondence.

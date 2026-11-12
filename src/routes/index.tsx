@@ -1,23 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { ArrowRight, ArrowUpRight, MapPin, Layers3, Globe2, Compass, ShieldCheck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import skyline from '@/assets/nairobi-skyline.jpg';
+import { SiteShell, PartnerBand } from '@/components/corporate/site-shell';
+import { PillarGrid } from '@/components/corporate/pillar-grid';
+import { pageHead } from '@/components/corporate/business-data';
+export const Route = createFileRoute('/')({ component: Index, head:()=>pageHead('Diversified Business & Investment Group','YIREHSHAM GROUP is a Kenyan diversified business and investment organisation building opportunities across six complementary sectors.') });
+function Index() { return <SiteShell><section className="hero"><img className="hero-photo" src={skyline} alt="Illustrative view of Nairobi’s commercial skyline" width={1920} height={1024}/><div className="hero-overlay"/><div className="site-container hero-content"><div className="eyebrow">Diversified Business & Investment Group</div><h1>Building Businesses.<br/>Connecting Opportunities.<br/><span>Creating Impact.</span></h1><p>YIREHSHAM GROUP is a diversified business and investment organisation focused on creating opportunities, delivering innovative solutions and developing sustainable enterprises across multiple sectors.</p><div className="hero-actions"><Button asChild variant="corporate"><Link to="/businesses">Explore Our Businesses <ArrowRight /></Link></Button><Button asChild variant="hero"><Link to="/contact">Partner With Us <ArrowUpRight /></Link></Button></div></div><div className="hero-caption"><MapPin size={12}/> Rooted in Kenya. Open to the world.</div></section><section className="identity-strip"><div className="site-container identity-inner">{[{icon:Layers3,label:'Six Complementary Business Pillars'},{icon:Globe2,label:'Kenyan Roots. Global Outlook.'},{icon:Compass,label:'Opportunity-Driven Thinking'},{icon:ShieldCheck,label:'Built on Integrity & Purpose'}].map(item=><div className="identity-item" key={item.label}><item.icon strokeWidth={1.5}/><span>{item.label}</span></div>)}</div></section><section className="section"><div className="site-container intro-layout"><div><div className="eyebrow text-primary">Welcome to YIREHSHAM Group</div><h2 className="section-heading">A Group Built<br/>Around Opportunity</h2></div><div><p className="copy">YIREHSHAM GROUP LTD is a diversified business organisation established to pursue opportunities across technology, business consulting, international commerce, investments, agriculture and procurement.</p><p className="copy mt-4">We are building a connected business foundation — bringing together strategic thinking, practical solutions and a shared ambition to create lasting value.</p><Link className="text-link" to="/about">Discover Our Group <ArrowUpRight size={16}/></Link></div></div></section><section className="section business-section"><div className="site-container"><div className="section-topline"><div><div className="eyebrow text-primary">Our business pillars</div><h2 className="section-heading">Diverse Sectors. Shared Ambition.</h2></div><Link to="/businesses" className="text-link">Explore All Businesses <ArrowUpRight size={16}/></Link></div><PillarGrid /></div></section><section className="section"><div className="site-container intro-layout"><div><div className="eyebrow text-primary">Our approach</div><h2 className="section-heading">Think strategically.<br/>Build sustainably.</h2></div><div><p className="copy">We look for the connections between ideas, businesses and markets. Our approach combines responsible enterprise development with a practical focus on partnerships, innovation and long-term value.</p><Link to="/approach" className="text-link">How We Work <ArrowUpRight size={16}/></Link></div></div></section><PartnerBand /></SiteShell>; }
