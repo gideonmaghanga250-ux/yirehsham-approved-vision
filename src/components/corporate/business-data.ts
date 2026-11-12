@@ -7,6 +7,14 @@ export const businesses = [
   { name: 'Agriculture & Agribusiness', icon: Sprout, description: 'Exploring sustainable agricultural opportunities and strengthening value chains from farm to market.' },
   { name: 'General Supplies & Procurement', icon: PackageCheck, description: 'Supporting organisations with sourcing, general supplies and dependable procurement solutions.' },
 ];
+export const contact = {
+  email: 'yirehshamgroupltd@gmail.com',
+  emailHref: 'mailto:yirehshamgroupltd@gmail.com',
+  phone: '+254 704 769 728',
+  phoneHref: 'tel:+254704769728',
+  whatsappHref: 'https://wa.me/254704769728',
+  location: 'Kenya · East Africa',
+};
 export function pageHead(title: string, description: string) {
   const fullTitle = `${title} | YIREHSHAM GROUP LTD`;
   return { meta: [{ title: fullTitle }, { name: 'description', content: description }, { property: 'og:title', content: fullTitle }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] };

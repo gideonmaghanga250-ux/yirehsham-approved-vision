@@ -32,4 +32,4 @@ use the editor.
 ## Application structure
 - Keep shared corporate navigation and footer in a single site shell, with separate content routes; this preserves consistent navigation and per-page metadata.
 - Store business pillar content in a browser-safe shared module so homepage and business pages remain aligned.
-- Until a real contact destination is supplied, enquiries download locally and never pretend to send; this prevents lost correspondence.
+- Record every enquiry in the `enquiries` table from server code; the form must never only download a file or pretend to send, so no correspondence is lost.

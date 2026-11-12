@@ -1,8 +1,83 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState, type FormEvent } from 'react';
-import { Download, MapPin, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Loader2, Mail, MapPin, MessageSquareText, Phone } from 'lucide-react';
 import { SiteShell, PageHeading } from '@/components/corporate/site-shell';
 import { Button } from '@/components/ui/button';
-import { businesses, pageHead } from '@/components/corporate/business-data';
-export const Route=createFileRoute('/contact')({component:Contact,head:()=>pageHead('Contact Us','Prepare a business or partnership enquiry for YIREHSHAM GROUP LTD in Kenya.')});
-function Contact(){const [prepared,setPrepared]=useState(false);function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();const data=new FormData(e.currentTarget);const text=`YIREHSHAM GROUP LTD — Business Enquiry\n\n${Array.from(data.entries()).map(([k,v])=>`${k}: ${v}`).join('\n\n')}`;const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='yirehsham-enquiry.txt';a.click();URL.revokeObjectURL(url);setPrepared(true);}return <SiteShell><PageHeading eyebrow="Connect with us" title="Let's Build Something Meaningful." description="Start a conversation about business, partnerships or an opportunity across our six sectors."/><section className="section"><div className="site-container contact-layout"><div><div className="eyebrow text-primary">Business & partnership enquiries</div><h2 className="section-heading">Open to opportunity.</h2><p className="copy mt-5">Share your interests and the opportunity you have in mind.</p><div className="flex items-center gap-3 mt-7 text-sm"><MapPin className="text-primary" size={18}/>Kenya</div><p className="copy mt-7">Direct contact details are awaiting confirmation. You can prepare and download your enquiry below; it is not sent to the company.</p></div><form className="enquiry-form" onSubmit={submit}><label className="form-field">Full name<input name="Name" required autoComplete="name"/></label><label className="form-field">Email address<input name="Email" required type="email" autoComplete="email"/></label><label className="form-field">Organisation<input name="Organisation" autoComplete="organization"/></label><label className="form-field">Area of interest<select name="Interest" defaultValue="Partnership"><option>Partnership</option>{businesses.map(b=><option key={b.name}>{b.name}</option>)}<option>General enquiry</option></select></label><label className="form-field form-wide">Your message<textarea name="Message" required rows={5}/></label><div className="form-wide"><Button variant="corporate" type="submit" className="h-11">Download Enquiry <Download/></Button>{prepared&&<p role="status" className="text-primary text-sm mt-4 flex gap-2 items-center"><CheckCircle2 size={16}/>Your enquiry is ready. Downloaded, not sent.</p>}</div></form></div></section></SiteShell>}
+import { businesses, contact, pageHead } from '@/components/corporate/business-data';
+import { submitEnquiry } from '@/lib/enquiries.server';
+
+export const Route = createFileRoute('/contact')({
+  component: Contact,
+  head: () => pageHead('Contact Us', 'Email or call YIREHSHAM GROUP LTD in Kenya, or send a business or partnership enquiry across our six sectors.'),
+});
+
+type Status = 'idle' | 'sending' | 'sent' | 'failed';
+
+function Contact() {
+  const [status, setStatus] = useState<Status>('idle');
+  const [problem, setProblem] = useState('');
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    setStatus('sending');
+    setProblem('');
+
+    const result = await submitEnquiry({
+      data: {
+        name: data.get('Name'),
+        email: data.get('Email'),
+        organisation: data.get('Organisation'),
+        interest: data.get('Interest'),
+        message: data.get('Message'),
+        website: data.get('website'),
+      },
+    });
+
+    if (result.ok) {
+      form.reset();
+      setStatus('sent');
+    } else {
+      setProblem(result.message);
+      setStatus('failed');
+    }
+  }
+
+  return (
+    <SiteShell>
+      <PageHeading eyebrow="Connect with us" title="Let's Build Something Meaningful." description="Start a conversation about business, partnerships or an opportunity across our six sectors." />
+      <section className="section">
+        <div className="site-container contact-layout">
+          <div>
+            <div className="eyebrow text-primary">Business & partnership enquiries</div>
+            <h2 className="section-heading">Open to opportunity.</h2>
+            <p className="copy mt-5">Share your interests and the opportunity you have in mind.</p>
+            <div className="contact-details">
+              <a className="contact-detail" href={contact.emailHref}><Mail size={16} /><span>{contact.email}</span></a>
+              <a className="contact-detail" href={contact.phoneHref}><Phone size={16} /><span>{contact.phone}</span></a>
+              <a className="contact-detail" href={contact.whatsappHref} target="_blank" rel="noreferrer"><MessageSquareText size={16} /><span>WhatsApp us</span></a>
+              <div className="contact-detail"><MapPin size={16} /><span>{contact.location}</span></div>
+            </div>
+            <p className="enquiry-note">Enquiries sent with this form are recorded for our team to review. Prefer email? Write to us directly at <a href={contact.emailHref}>{contact.email}</a>.</p>
+          </div>
+          <form className="enquiry-form" onSubmit={submit}>
+            <label className="form-field">Full name<input name="Name" required autoComplete="name" /></label>
+            <label className="form-field">Email address<input name="Email" required type="email" autoComplete="email" /></label>
+            <label className="form-field">Organisation<input name="Organisation" autoComplete="organization" /></label>
+            <label className="form-field">Area of interest<select name="Interest" defaultValue="Partnership"><option>Partnership</option>{businesses.map(b => <option key={b.name}>{b.name}</option>)}<option>General enquiry</option></select></label>
+            <label className="form-field form-wide">Your message<textarea name="Message" required rows={5} /></label>
+            <label className="hp" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+            <div className="form-wide">
+              <Button variant="corporate" type="submit" className="h-11" disabled={status === 'sending'}>
+                {status === 'sending' ? <><Loader2 className="animate-spin" /> Sending…</> : <>Send Enquiry <Mail /></>}
+              </Button>
+              {status === 'sent' && <p role="status" className="text-primary text-sm mt-4 flex gap-2 items-center"><CheckCircle2 size={16} />Thank you. Your enquiry has been recorded.</p>}
+              {status === 'failed' && <p role="alert" className="text-sm mt-4" style={{ color: 'var(--destructive)' }}>{problem}</p>}
+            </div>
+          </form>
+        </div>
+      </section>
+    </SiteShell>
+  );
+}

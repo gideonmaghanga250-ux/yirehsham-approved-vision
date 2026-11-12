@@ -234,6 +234,12 @@
 .form-field { display: flex; flex-direction: column; gap: 9px; font-size: 12px; }
 .form-field input,.form-field select,.form-field textarea { border: 1px solid var(--input); border-radius: 3px; padding: 12px; background: var(--background); color: var(--foreground); width: 100%; }
 .form-wide { grid-column: 1 / -1; }
+.contact-details { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
+.contact-detail { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--foreground); }
+.contact-detail svg { color: var(--primary); flex-shrink: 0; }
+.enquiry-note { font-size: 11px; line-height: 1.8; opacity: .68; margin-top: 28px; max-width: 34ch; }
+.enquiry-note a { color: var(--primary); font-weight: 600; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .mobile-menu-button { display: none; }
 .mobile-nav { display: none; }
 @media(min-width:1440px) { .hero { min-height: 670px; } }
